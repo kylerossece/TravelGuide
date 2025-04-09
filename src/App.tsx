@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import "./index.css"
 import Map from "./Components/Map"
 import List from "./Components/List"
+import {getPlaces } from "./api/travelApi"
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
 
   const [center, setCenter] = useState<Center | null>(null)
   const [bounds, setBounds] = useState<Bounds | null>(null)
+  const [type, setType] = useState<string>("restaurants")
 
 
   useEffect(() => {
@@ -39,6 +41,13 @@ function App() {
   }
   }, []);
 
+  useEffect(() => {
+    if(bounds){
+      getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng)
+       
+    }
+  }, [type]);
+
 
   // <div class="grid grid-cols-12 gap-y-2" >
   //          <div  :class="[item.sender === 'User' ? 'col-start-7 col-end-13' : 'col-start-1 col-end-7', 'px-3 py-0.5']">
@@ -48,7 +57,11 @@ function App() {
      <main className='grid grid-cols-12 overflow-hidden'>
       <div className='col-span-12 lg:col-span-4'>
     
-        <List></List>
+        <List
+        type={type}
+        setType={setType}>
+          
+        </List>
       </div>
       <div className='col-span-12 lg:col-span-8'>
       <Map 

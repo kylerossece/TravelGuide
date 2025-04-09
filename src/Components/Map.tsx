@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import React from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import MapInterface from '../styles/MapInterface';
 // import GoogleMapReact from 'google-map-react';
 
 interface MapProps {
@@ -10,13 +11,19 @@ interface MapProps {
     neLat: number;
     neLng: number;
     swLat: number;
-    swLng: number; };
-  setBounds: (newBounds: { ne: number; sw: number } | null) => void;
+    swLng: number; 
+  };
+  setBounds: (newBounds: {     
+    neLat: number;
+    neLng: number;
+    swLat: number;
+    swLng: number;} | null) => void;
   setCenter: (newCenter: { lat: number; lng: number } | null) => void; 
 
 }
 
 const containerStyle = {
+  
   width: '100vw',
   height: '100vh',
 }
@@ -89,6 +96,9 @@ const Map: React.FC<MapProps> = ({ center, setCenter, bounds, setBounds }) => {
       onUnmount={onUnmount}
       onBoundsChanged={handleBounds}
       onCenterChanged={onCenterChanged}
+      options={{ disableDefaultUI: true, zoomControl: true, styles:  MapInterface 
+        
+      }}
     >
       {/* Child components, such as markers, info windows, etc. */}
       <></>

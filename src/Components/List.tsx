@@ -11,7 +11,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 
-function List() {
+function List({type: string, setType}) {
   return (
     <div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -20,17 +20,19 @@ function List() {
     </div>
     <div>
     <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+      <SelectTrigger className="">
+        <SelectValue placeholder="Select Category" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+        {/* <MenuItem value="restaurants">Restaurants</MenuItem>
+              <MenuItem value="hotels">Hotels</MenuItem>
+              <MenuItem value="attractions">Attractions</MenuItem> */}
+          <SelectLabel>Type</SelectLabel>
+          <SelectItem value="restaurants">Restaurants</SelectItem>
+          <SelectItem value="hotels">Hotels</SelectItem>
+          <SelectItem value="attractions">Attractions</SelectItem>
+         
         </SelectGroup>
       </SelectContent>
     </Select>
