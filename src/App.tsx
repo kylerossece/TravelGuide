@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import {  useJsApiLoader } from '@react-google-maps/api'
 
 import "./index.css"
 import Map from "./Components/Map"
 import List from "./Components/List"
 import {getPlaces } from "./api/travelApi"
+import type {Bounds} from "@/types/travel"
 
 
 function App() {
@@ -12,15 +14,11 @@ function App() {
     lng: number;
   }
 
-  interface Bounds {
-    neLat: number;
-    neLng: number;
-    swLat: number;
-    swLng: number;
-  }
+
 
   const [center, setCenter] = useState<Center | null>(null)
   const [bounds, setBounds] = useState<Bounds | null>(null)
+  const [locations, setLocations] = useState<any[]>([])
   const [type, setType] = useState<string>("restaurants")
 
 
@@ -40,38 +38,45 @@ function App() {
     );
   }
   }, []);
+  //
+    const { isLoaded, loadError } = useJsApiLoader({
+      id: 'google-map-script',
+      googleMapsApiKey:  import.meta.env.VITE_API_GOOGLE_MAPS_KEY,
+      libraries: ['places'],
+    })
 
-  useEffect(() => {
-    if(bounds){
-      getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng)
+  // useEffect(() => {
+  //   console.log("bounds", bounds)
+  //   if(bounds){
+  //     getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng).then((data) => setLocations(data))
        
-    }
-  }, [type]);
+  //   }
+  // }, []);
 
-
-  // <div class="grid grid-cols-12 gap-y-2" >
-  //          <div  :class="[item.sender === 'User' ? 'col-start-7 col-end-13' : 'col-start-1 col-end-7', 'px-3 py-0.5']">
 
   return center ? (
     <>
-     <main className='grid grid-cols-12 overflow-hidden'>
-      <div className='col-span-12 lg:col-span-4'>
-    
-        <List
-        type={type}
-        setType={setType}>
-          
-        </List>
-      </div>
-      <div className='col-span-12 lg:col-span-8'>
-      <Map 
-      center={center} 
-      bounds={bounds} 
+   <main className="grid grid-cols-12 overflow-x-hidden">
+  <div className="col-span-12 lg:col-span-4">
+    <List 
+      type={type} 
+      setType={setType}  
+      isLoaded={isLoaded}
+      loadError={loadError} 
+       />
+  </div>
+  <div className="col-span-12 lg:col-span-8 ">
+    <Map
+      center={center}
+      bounds={bounds}
       setBounds={setBounds}
-      setCenter={setCenter} 
-      ></Map>
-      </div>
-      </main>
+      setCenter={setCenter}
+      isLoaded={isLoaded}
+      loadError={loadError}
+
+    />
+  </div>
+</main>
     </>
   ) : (
     <div>Loading...</div>

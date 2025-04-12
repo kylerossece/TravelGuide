@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
 
-export const getPlaces  = async (type : string, neLat : number, neLng : number, swLat: number, swLng : number) => {
+
+export const getPlaces  = async (type: string , neLat : number , neLng : number, swLat : number, swLng : number) => {
   try {
     const { data: { data } } = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`, {
       params: {
@@ -20,5 +21,6 @@ export const getPlaces  = async (type : string, neLat : number, neLng : number, 
   } catch (error) {
     console.log(error);
   }
+  
 };
 
