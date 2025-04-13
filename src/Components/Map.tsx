@@ -1,12 +1,12 @@
 
 import { useState, useCallback } from 'react';
 import React from 'react'
-import { GoogleMap, useJsApiLoader, Autocomplete } from '@react-google-maps/api'
+import { GoogleMap } from '@react-google-maps/api'
 import MapInterface from '../styles/MapInterface';
 // import GoogleMapReact from 'google-map-react';
 
-import type { MapProps } from '@/types/travel';
-
+import type { Bounds } from '@/types/travel';
+import { useTravelContext } from '@/helpers/travelContext'
 const containerStyle = {
   
   width: '100vw',
@@ -15,10 +15,11 @@ const containerStyle = {
 
 
 
-const Map: React.FC<MapProps> = ({ center, setCenter, bounds, setBounds, loadError, isLoaded, }) => {
- 
+const Map = () => {
 
-  const [map, setMap] = useState(null)
+  const { center, setCenter, bounds, setBounds, isLoaded, loadError }   = useTravelContext();
+
+  const [map, setMap] = useState<google.maps.Map | null>(null)
 
   const handleBounds = () => {
     if (map) {
@@ -32,7 +33,7 @@ const Map: React.FC<MapProps> = ({ center, setCenter, bounds, setBounds, loadErr
           neLng: ne.lng(),
           swLat: sw.lat(),
           swLng: sw.lng(),
-        };
+        } as Bounds;
   
         if (
           !bounds ||
@@ -60,7 +61,7 @@ const Map: React.FC<MapProps> = ({ center, setCenter, bounds, setBounds, loadErr
     }
   };
 
-  const onLoad = useCallback(function callback(map) {
+  const onLoad = useCallback(function callback(map: google.maps.Map) {
 
     const defaultBounds = new window.google.maps.LatLngBounds(center)
     map.fitBounds(defaultBounds)
@@ -68,7 +69,7 @@ const Map: React.FC<MapProps> = ({ center, setCenter, bounds, setBounds, loadErr
     setMap(map)
   }, [center])
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback() {
     setMap(null)
   }, [])
 

@@ -4,6 +4,9 @@ import { Label } from "@/components/ui/label"
 import { useEffect, useRef, useState } from "react"
 import { Autocomplete } from '@react-google-maps/api';
 import {CategoriesData} from "../data/data"
+import { useTravelContext } from "@/helpers/travelContext"
+import { IoStar } from "react-icons/io5";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import {
   Card,
   CardContent,
@@ -22,17 +25,14 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 
-  interface ListProps {
-    type: string;
-    setType: (value: string) => void; 
-    isLoaded: boolean;
-    loadError: Error | undefined;
-    
-  }
 
 
 
-function List({ type, setType, isLoaded,loadError }: ListProps) {
+
+function List() {
+
+  const { type, setType, isLoaded, loadError }  = useTravelContext();
+
   const categoriesRef = useRef(null)
 
 
@@ -104,7 +104,7 @@ if (!isLoaded) {
     </Select>
     </div>
     </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[600px]">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[600px]">
     {[1,2,3,4,5,6].map((i) => {
       return(
         <Card key={i}>
@@ -115,11 +115,13 @@ if (!isLoaded) {
 
       </CardDescription>
   </CardHeader>
-  <CardContent>
-    Card Content
+  <CardContent className="flex flex-col gap-2">
+
+  <p className="text-blue-500 flex items-center gap-1"><FaMapMarkerAlt /> Marikina City</p>
+  <p className="flex items-center gap-1 text-sm"><IoStar className="text-yellow-500" /> <span className="font-medium">5.0 Superb</span></p>
   </CardContent>
   <CardFooter>
-    <p>Card Footer</p>
+
   </CardFooter>
 </Card>
       )

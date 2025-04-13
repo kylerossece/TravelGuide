@@ -5,14 +5,12 @@ import "./index.css"
 import Map from "./Components/Map"
 import List from "./Components/List"
 import {getPlaces } from "./api/travelApi"
-import type {Bounds} from "@/types/travel"
+import type {Bounds, Center} from "@/types/travel"
+import { TravelContext } from '@/helpers/travelContext'
 
 
 function App() {
-  interface Center {
-    lat: number;
-    lng: number;
-  }
+
 
 
 
@@ -55,29 +53,20 @@ function App() {
 
 
   return center ? (
-    <>
+    <TravelContext.Provider
+    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError }}>
    <main className="grid grid-cols-12 overflow-x-hidden">
-  <div className="col-span-12 lg:col-span-4">
+  <section className="col-span-12 lg:col-span-4">
     <List 
-      type={type} 
-      setType={setType}  
-      isLoaded={isLoaded}
-      loadError={loadError} 
-       />
-  </div>
-  <div className="col-span-12 lg:col-span-8 ">
-    <Map
-      center={center}
-      bounds={bounds}
-      setBounds={setBounds}
-      setCenter={setCenter}
-      isLoaded={isLoaded}
-      loadError={loadError}
 
+       />
+  </section>
+  <section className="col-span-12 lg:col-span-8 ">
+    <Map
     />
-  </div>
+  </section>
 </main>
-    </>
+    </TravelContext.Provider>
   ) : (
     <div>Loading...</div>
   )
