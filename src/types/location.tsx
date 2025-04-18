@@ -22,5 +22,6 @@ export interface LocationItem {
     rating?: string;
     price_level?: string;
     latitude: number;
-    longitude: number
+    longitude: number;
+    web_url: string
   }

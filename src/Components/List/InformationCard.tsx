@@ -16,18 +16,18 @@ import {
 const InformationCard = () => {
 
     const {locations}  = useTravelContext();
-
+    
     
     return(
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[400px] sm:max-h-[600px]">
         {locations.filter((item : LocationItem) =>  item.rating).map((item : LocationItem) => {
           return(
-            <Card key={item.location_id}>
+            <Card key={item.location_id}  className="group border  hover:shadow-xl transition-all duration-300 cursor-pointer"   onClick={() => window.open(item.web_url, '_blank')} >
       <CardHeader>
         <CardDescription >
-    
-          <img src={item.photo?.images?.large?.url} alt={item.name} className="rounded-xl h-[275px] w-full max-w-full max-h-auto "  />
-    
+        <div className="transition-all duration-300 ease-in-out group-hover:scale-90">
+          <img src={item.photo?.images?.large?.url} alt={item.name} className="rounded-xl h-[275px] w-full max-w-full max-h-auto  "  />
+            </div>
           </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">

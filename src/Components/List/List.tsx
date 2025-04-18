@@ -38,7 +38,7 @@ useEffect(() =>{
       <SearchLocation />
       <SelectList />
     </Card>
-    {loading && !locations.length ? (<ClipLoader className="mx-auto" loading={loading}  /> ) : (!locations.length && <div>No Entries found</div>)}
+    {loading && !locations.length ? (<ClipLoader className="mx-auto" loading={loading}  /> ) : (!locations.length && <div>No Entries Found</div>)}
     <InformationCard />
     </div>
  

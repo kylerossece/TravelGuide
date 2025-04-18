@@ -35,7 +35,7 @@ const locationReducer = (state : LocationItem | any, action : Action) => {
 };
 
 const Sort = () => {
-  const { locations, setLocations,  sortVal, setSortVal, } = useTravelContext();
+  const { locations, setLocations,  sortVal, setSortVal, type} = useTravelContext();
 
   const [sortedLocations, dispatch] = useReducer(locationReducer, locations);
 
@@ -57,8 +57,12 @@ const Sort = () => {
     setSortVal(value)
     dispatch({ type: value.toUpperCase() });
   };
+  const filteredSortData = SortData.filter((sort) => {
+    const excluded = ["decreasing", "increasing"];
+    return type === "restaurants" || !excluded.includes(sort.value);
+  });
 
-  const sortItem = SortData.map((sort) => (
+  const sortItem = filteredSortData.map((sort) => (
     <SelectItem key={sort.id} value={sort.value}>
       {sort.name}
     </SelectItem>
