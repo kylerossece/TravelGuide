@@ -2,12 +2,12 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import {  useJsApiLoader } from '@react-google-maps/api'
 
 import "./index.css"
-import Map from "./Components/Map"
-import List from "./Components/List"
+import Map from "./Components/Map/Map"
+import List from "./Components/List/List"
 import {getPlaces } from "./api/travelApi"
 import type {Bounds, Center} from "@/types/travel"
 import { TravelContext } from '@/helpers/travelContext'
-
+import type { LocationItem } from '@/types/location'
 
 function App() {
 
@@ -17,8 +17,9 @@ function App() {
   const [center, setCenter] = useState<Center | null>(null)
   const [bounds, setBounds] = useState<Bounds | null>(null)
   const [locations, setLocations] = useState<any[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const [type, setType] = useState<string>("restaurants")
-
+  const libraries: ("places")[] = ["places"];
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -30,7 +31,17 @@ function App() {
       (error) => {
         console.error(error);
         // Set default to Manila 
-        setCenter({ lat: 14.5995, lng: 120.9842 });
+        const fallCent = {
+          lat: 14.5995, lng: 120.9842
+        }
+        setCenter(fallCent);
+        setBounds({
+          neLat: fallCent.lat + 0.05,
+          neLng: fallCent.lng + 0.05,
+          swLat: fallCent.lat - 0.05,
+          swLng: fallCent.lng - 0.05,
+        }) 
+
       }
       
     );
@@ -40,32 +51,31 @@ function App() {
     const { isLoaded, loadError } = useJsApiLoader({
       id: 'google-map-script',
       googleMapsApiKey:  import.meta.env.VITE_API_GOOGLE_MAPS_KEY,
-      libraries: ['places'],
+      libraries
     })
 
-  // useEffect(() => {
-  //   console.log("bounds", bounds)
-  //   if(bounds){
-  //     getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng).then((data) => setLocations(data))
+  useEffect(() => {
+    if(bounds && type){
+      getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng).then((data) => {
+        setLocations(data.filter((item : LocationItem) => item.rating))
+        console.log("locations", locations)
+      })
        
-  //   }
-  // }, []);
+    }
+  }, [bounds, type]);
 
 
-  return center ? (
+  return center && isLoaded ? (
     <TravelContext.Provider
-    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError }}>
+    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError, locations, setLocations }}>
    <main className="grid grid-cols-12 overflow-x-hidden">
-  <section className="col-span-12 lg:col-span-4">
-    <List 
-
-       />
+  <section className="col-span-12  lg:col-span-5">
+    <List />
   </section>
-  <section className="col-span-12 lg:col-span-8 ">
-    <Map
-    />
+  <section className="col-span-12 lg:col-span-7">
+    <Map/>
   </section>
-</main>
+  </main>
     </TravelContext.Provider>
   ) : (
     <div>Loading...</div>

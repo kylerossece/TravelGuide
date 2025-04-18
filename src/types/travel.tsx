@@ -1,6 +1,6 @@
 
 export type Bounds = {
-    type: string;
+    type?: string;
     neLat: number;
     neLng: number;
     swLat: number;
@@ -36,7 +36,7 @@ export interface ListProps {
   }
 
 export interface TravelContextType {
-    center: Center | null;
+    center: Center ;
     setCenter: (center: Center) => void;
     bounds: Bounds | null;
     setBounds: (bounds: Bounds) => void;
@@ -44,4 +44,6 @@ export interface TravelContextType {
     setType: (type: string) => void;
     isLoaded: boolean;
     loadError: Error | undefined;
+    locations: any | null;
+    setLocations: (type: any) => void;
   }
