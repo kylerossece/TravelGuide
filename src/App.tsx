@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState,useEffect } from 'react'
 import {  useJsApiLoader } from '@react-google-maps/api'
-
+import PuffLoader from "react-spinners/PuffLoader"
 import "./index.css"
 import Map from "./Components/Map/Map"
 import List from "./Components/List/List"
@@ -19,6 +19,7 @@ function App() {
   const [locations, setLocations] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [type, setType] = useState<string>("restaurants")
+  const [sortVal, setSortVal] = useState<string>("")
   const libraries: ("places")[] = ["places"];
 
   useEffect(() => {
@@ -56,9 +57,14 @@ function App() {
 
   useEffect(() => {
     if(bounds && type){
+      setLocations([])
+      setLoading(true);
       getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng).then((data) => {
         setLocations(data.filter((item : LocationItem) => item.rating))
-        console.log("locations", locations)
+        setLoading(false)
+      }).catch((err) => {
+        console.log(err)
+        setLoading(false)
       })
        
     }
@@ -67,8 +73,10 @@ function App() {
 
   return center && isLoaded ? (
     <TravelContext.Provider
-    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError, locations, setLocations }}>
+    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError, locations, setLocations, sortVal, setSortVal, loading, setLoading }}>
+   
    <main className="grid grid-cols-12 overflow-x-hidden">
+
   <section className="col-span-12  lg:col-span-5">
     <List />
   </section>
@@ -78,7 +86,8 @@ function App() {
   </main>
     </TravelContext.Provider>
   ) : (
-    <div>Loading...</div>
+    center && 
+    <PuffLoader loading={loading}  />
   )
 }
 

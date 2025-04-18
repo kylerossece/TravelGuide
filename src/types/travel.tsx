@@ -37,13 +37,17 @@ export interface ListProps {
 
 export interface TravelContextType {
     center: Center ;
-    setCenter: (center: Center) => void;
+    sortVal: string;
     bounds: Bounds | null;
-    setBounds: (bounds: Bounds) => void;
     type: string;
-    setType: (type: string) => void;
+    loading: boolean;
     isLoaded: boolean;
     loadError: Error | undefined;
     locations: any | null;
+    setCenter: (center: Center) => void;
+    setBounds: (bounds: Bounds) => void;
+    setType: (type: string) => void;
     setLocations: (type: any) => void;
+    setSortVal: (type :string) => void
+    setLoading: (type: false) => void;
   }

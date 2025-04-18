@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 
 import { useTravelContext } from "@/helpers/travelContext"
-
+import ClipLoader from "react-spinners/ClipLoader"
 import SearchLocation from "./SearchLocation";
 import SelectList from "./SelectList";
 import {
@@ -17,17 +17,13 @@ import InformationCard from "./InformationCard";
 
 const List = () => {
 
-  const { isLoaded, loadError, locations }  = useTravelContext();
+  const { loadError, locations, loading }  = useTravelContext();
 
 
 
 
 if (loadError) {
   return <div>Error loading Google Maps API</div>;
-}
-
-if (!isLoaded) {
-  return <div>Loading...</div>;
 }
 
 useEffect(() =>{
@@ -42,6 +38,7 @@ useEffect(() =>{
       <SearchLocation />
       <SelectList />
     </Card>
+    {loading && !locations.length ? (<ClipLoader className="mx-auto" loading={loading}  /> ) : (!locations.length && <div>No Entries found</div>)}
     <InformationCard />
     </div>
  

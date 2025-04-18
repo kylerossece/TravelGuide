@@ -23,7 +23,7 @@ import { useTravelContext } from "@/helpers/travelContext";
   
 const Categories = () => {
 
-    const { type, setType }  = useTravelContext();
+    const { type, setType, setSortVal }  = useTravelContext();
     const categoriesRef = useRef(null)
     
 let categoriesItem = CategoriesData.map((category) => (
@@ -33,7 +33,7 @@ let categoriesItem = CategoriesData.map((category) => (
  ))
 
  const handleCategoryChange = (value: string) => {
- 
+    setSortVal("")
     setType(value) 
     console.log("value",value)
   }

@@ -10,7 +10,10 @@ export interface Photo {
       };
     };
   }
-  
+export interface Action {
+  type: string,
+  payload?: string
+}  
 export interface LocationItem {
     location_id: string;
     name: string;
