@@ -1,4 +1,5 @@
 
+import type { LocationItem } from "./location";
 export type Bounds = {
     type?: string;
     neLat: number;
@@ -13,7 +14,7 @@ export interface Center {
   }
 
 export interface MapProps {
-    center: { lat: number; lng: number } | null;
+    center: { lat: number; lng: number };
     bounds: {   
       neLat: number;
       neLng: number;
@@ -41,13 +42,17 @@ export interface TravelContextType {
     bounds: Bounds | null;
     type: string;
     loading: boolean;
+    locationId: string;
     isLoaded: boolean;
     loadError: Error | undefined;
-    locations: any | null;
+    cardLocations: LocationItem[] | any;
+    mapLocations: LocationItem[];
     setCenter: (center: Center) => void;
     setBounds: (bounds: Bounds) => void;
     setType: (type: string) => void;
-    setLocations: (type: any) => void;
+    setCardLocations: (type: LocationItem[]) => void;
+    setMapLocations: (type: LocationItem[]) => void;
     setSortVal: (type :string) => void
     setLoading: (type: false) => void;
+    setLocationId: (type: string) => void;
   }

@@ -10,19 +10,30 @@ import {
   import { IoStar } from "react-icons/io5";
   import { FaMapMarkerAlt } from "react-icons/fa";
   import type {LocationItem} from "@/types/location"
-
+  import { useEffect, useRef } from "react";
   import { useTravelContext } from "@/helpers/travelContext"
 
 const InformationCard = () => {
 
-    const {locations}  = useTravelContext();
+    const {cardLocations, locationId}  = useTravelContext();
+
+    const cardRefs = useRef< {[key: string] : HTMLDivElement | null}>({})
     
+    useEffect(() => {
+      if (locationId && cardRefs.current[locationId]) {
+        cardRefs.current[locationId]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, [locationId]);
     
     return(
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[400px] sm:max-h-[600px]">
-        {locations.filter((item : LocationItem) =>  item.rating).map((item : LocationItem) => {
+        {cardLocations?.filter((item : LocationItem) =>  item.rating).map((item : LocationItem) => {
           return(
-            <Card key={item.location_id}  className="group border  hover:shadow-xl transition-all duration-300 cursor-pointer"   onClick={() => window.open(item.web_url, '_blank')} >
+        <div  key={item.location_id} ref={(el) => {cardRefs.current[item.location_id] = el;}}>
+            <Card  className="group border  hover:shadow-xl transition-all duration-300 cursor-pointer"   onClick={() => window.open(item.web_url, '_blank')} >
       <CardHeader>
         <CardDescription >
         <div className="transition-all duration-300 ease-in-out group-hover:scale-90">
@@ -44,6 +55,7 @@ const InformationCard = () => {
       
       </CardFooter>
     </Card>
+    </div>
           )
         })
         }

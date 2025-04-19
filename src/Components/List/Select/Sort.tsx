@@ -35,21 +35,21 @@ const locationReducer = (state : LocationItem | any, action : Action) => {
 };
 
 const Sort = () => {
-  const { locations, setLocations,  sortVal, setSortVal, type} = useTravelContext();
+  const { cardLocations, setCardLocations,  sortVal, setSortVal, type} = useTravelContext();
 
-  const [sortedLocations, dispatch] = useReducer(locationReducer, locations);
+  const [sortedLocations, dispatch] = useReducer(locationReducer, cardLocations);
 
 
   useEffect(() => {
-    if (locations.length > 0) {
-      dispatch({ type: "RESET", payload: locations });
+    if ( cardLocations.length > 0) {
+      dispatch({ type: "RESET", payload: cardLocations });
     }
-  }, [locations]);
+  }, [ cardLocations]);
 
 
   useEffect(() => {
     if (sortedLocations.length > 0) {
-      setLocations(sortedLocations);
+      setCardLocations(sortedLocations);
     }
   }, [sortedLocations]);
 

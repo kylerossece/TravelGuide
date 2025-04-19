@@ -7,10 +7,20 @@ import {
   } from "@/Components/ui/card"
   import { IoStar } from "react-icons/io5";
   import type {LocationItem} from "../../types/location"
+  import { useTravelContext } from "@/helpers/travelContext";
 
 const CardMap = ({item} : LocationItem | any) => {
+
+  const { setLocationId} = useTravelContext();
+
+  const handleLocationId = () => {
+
+    setLocationId(item.location_id);
+    
+  };
+
     return (
-        <Card className="w-[90px] shadow-lg rounded-xl ">
+        <Card onClick={handleLocationId} className="w-[90px] shadow-lg rounded-xl ">
         <CardHeader>
           <CardDescription>
             <img

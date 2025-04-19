@@ -17,7 +17,7 @@ import InformationCard from "./InformationCard";
 
 const List = () => {
 
-  const { loadError, locations, loading }  = useTravelContext();
+  const { loadError, cardLocations, loading }  = useTravelContext();
 
 
 
@@ -27,7 +27,7 @@ if (loadError) {
 }
 
 useEffect(() =>{
-  console.log("locations", locations)
+  console.log("locations", cardLocations)
 })
 
 
@@ -38,7 +38,7 @@ useEffect(() =>{
       <SearchLocation />
       <SelectList />
     </Card>
-    {loading && !locations.length ? (<ClipLoader className="mx-auto" loading={loading}  /> ) : (!locations.length && <div>No Entries Found</div>)}
+    {loading && !cardLocations?.length ? (<ClipLoader className="mx-auto" loading={loading}  /> ) : (!cardLocations?.length && <div>No Entries Found</div>)}
     <InformationCard />
     </div>
  

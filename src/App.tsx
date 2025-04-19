@@ -16,10 +16,12 @@ function App() {
 
   const [center, setCenter] = useState<Center | null>(null)
   const [bounds, setBounds] = useState<Bounds | null>(null)
-  const [locations, setLocations] = useState<any[]>([])
+  const [cardLocations, setCardLocations] = useState<LocationItem[]>([])
+  const [mapLocations, setMapLocations] = useState<LocationItem[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [type, setType] = useState<string>("restaurants")
   const [sortVal, setSortVal] = useState<string>("")
+  const [locationId, setLocationId] = useState<string>("")
   const libraries: ("places")[] = ["places"];
 
   useEffect(() => {
@@ -57,10 +59,12 @@ function App() {
 
   useEffect(() => {
     if(bounds && type){
-      setLocations([])
+      setCardLocations([])
+      setMapLocations([])
       setLoading(true);
       getPlaces(type,  bounds.neLat, bounds.neLng, bounds.swLat, bounds.swLng).then((data) => {
-        setLocations(data.filter((item : LocationItem) => item.rating))
+        setCardLocations(data.filter((item : LocationItem) => item.rating))
+        setMapLocations(data.filter((item : LocationItem) => item.rating))
         setLoading(false)
       }).catch((err) => {
         console.log(err)
@@ -73,7 +77,8 @@ function App() {
 
   return center && isLoaded ? (
     <TravelContext.Provider
-    value={{ center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError, locations, setLocations, sortVal, setSortVal, loading, setLoading }}>
+    value={{ 
+      center, setCenter, bounds, setBounds, type, setType, isLoaded, loadError, cardLocations, setCardLocations,mapLocations, setMapLocations, sortVal, setSortVal, loading, setLoading, locationId, setLocationId }}>
    
    <main className="grid grid-cols-12 overflow-x-hidden">
 
