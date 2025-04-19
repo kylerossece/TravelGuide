@@ -35,14 +35,14 @@ function App() {
         console.error(error);
         // Set default to Manila 
         const fallCent = {
-          lat: 14.5995, lng: 120.9842
+          lat: 14.5999, lng: 120.9849
         }
         setCenter(fallCent);
         setBounds({
-          neLat: fallCent.lat + 0.05,
-          neLng: fallCent.lng + 0.05,
-          swLat: fallCent.lat - 0.05,
-          swLng: fallCent.lng - 0.05,
+          neLat: fallCent.lat + 0.01,
+          neLng: fallCent.lng +  0.01,
+          swLat: fallCent.lat -  0.01,
+          swLng: fallCent.lng -  0.01,
         }) 
 
       }

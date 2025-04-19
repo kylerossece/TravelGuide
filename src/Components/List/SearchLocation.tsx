@@ -20,22 +20,36 @@ const AutocompleteList = () => {
   const onPlaceChanged = () => {
     if (autocomplete) {
       const place = autocomplete.getPlace();
-     const location = place.geometry?.location;
+      const location = place.geometry?.location;
+      const viewport = place.geometry?.viewport;
   
-      if (location) {
+      if (location && viewport) {
         const lat = location.lat();
         const lng = location.lng();
-        setCenter({lat: lat, lng: lng})
+        setCenter({ lat, lng });
   
-        
+        const ne = viewport.getNorthEast();
+        const sw = viewport.getSouthWest();
+  
         setBounds({
-          neLat: lat + 0.05,
-          neLng: lng + 0.05, 
-          swLat: lat - 0.05, 
-          swLng: lng - 0.05,
-        })
+          neLat: ne.lat() ,
+          neLng: ne.lng(),
+          swLat: sw.lat() ,
+          swLng: sw.lng()
+        });
+      } else if (location) {
+        const lat = location.lat();
+        const lng = location.lng();
+        setCenter({ lat, lng });
+  
+        setBounds({
+          neLat: lat + 0.01,
+          neLng: lng + 0.01,
+          swLat: lat - 0.01,
+          swLng: lng - 0.01,
+        });
       } else {
-        console.log("No location available");
+        console.error("Location not available");
       }
     }
   };

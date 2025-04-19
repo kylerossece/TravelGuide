@@ -59,7 +59,7 @@ const Sort = () => {
   };
   const filteredSortData = SortData.filter((sort) => {
     const excluded = ["decreasing", "increasing"];
-    return type === "restaurants" || !excluded.includes(sort.value);
+    return type === "restaurants" || type === "hotels" || !excluded.includes(sort.value);
   });
 
   const sortItem = filteredSortData.map((sort) => (

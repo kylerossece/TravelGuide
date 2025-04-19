@@ -22,19 +22,33 @@ const Map = () => {
 
 
 
-  const onLoad = useCallback((map: google.maps.Map) => {
-    if (bounds) {
+  const onLoad = useCallback((mapInstance: google.maps.Map) => {
+    let mapBounds: google.maps.LatLngBounds | null = null;
+  
+    if (
+      bounds &&
+      bounds.swLat < bounds.neLat &&
+      bounds.swLng < bounds.neLng
+    ) {
       const sw = new google.maps.LatLng(bounds.swLat, bounds.swLng);
       const ne = new google.maps.LatLng(bounds.neLat, bounds.neLng);
-      const mapBounds = new google.maps.LatLngBounds(sw, ne);
-      map.fitBounds(mapBounds);
-    } else {
-      const defaultBounds = new google.maps.LatLngBounds(center);
-      map.fitBounds(defaultBounds);
+      mapBounds = new google.maps.LatLngBounds(sw, ne);
+    } else if (mapLocations.length) {
+      mapBounds = new google.maps.LatLngBounds();
+      mapLocations.forEach((item) => {
+        mapBounds!.extend(new google.maps.LatLng(Number(item.latitude), Number(item.longitude)));
+      });
     }
   
-    setMap(map);
-  }, [bounds, center]);
+    if (mapBounds) {
+      mapInstance.fitBounds(mapBounds, { top: 100, bottom: 100, left: 100, right: 100 });
+    } else {
+      mapInstance.setCenter(center);
+      mapInstance.setZoom(13);
+    }
+  
+    setMap(mapInstance);
+  }, [bounds, mapLocations, center]);
 
   const onUnmount = useCallback(function callback() {
     setMap(null)
@@ -47,7 +61,7 @@ const Map = () => {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={11}
+      zoom={14}
       onLoad={onLoad}
       onUnmount={onUnmount}
     
