@@ -39,7 +39,7 @@ let categoriesItem = CategoriesData.map((category) => (
   }
 
     return (
-        <div className="col-span-12 md:col-span-6 flex items-center gap-2">
+        <div className="col-span-12 md:col-span-6 flex items-center gap-2 mb-4 sm:mb-0">
         <BiSolidCategory className="text-lg" />
         <Select onValueChange={handleCategoryChange}  value={type}  >
           <SelectTrigger className="w-full" id="category" >

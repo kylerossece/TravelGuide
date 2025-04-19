@@ -29,11 +29,11 @@ const InformationCard = () => {
     }, [locationId]);
     
     return(
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[400px] sm:max-h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[40vh] sm:max-h-[70vh]">
         {cardLocations?.filter((item : LocationItem) =>  item.rating).map((item : LocationItem) => {
           return(
-        <div  key={item.location_id} ref={(el) => {cardRefs.current[item.location_id] = el;}}>
-            <Card  className="group border  hover:shadow-xl transition-all duration-300 cursor-pointer"   onClick={() => window.open(item.web_url, '_blank')} >
+        <div className="h-full pb-3"  key={item.location_id} ref={(el) => {cardRefs.current[item.location_id] = el;}}>
+            <Card className="group border h-full flex flex-col hover:shadow-xl transition-all duration-300 cursor-pointer"   onClick={() => window.open(item.web_url, '_blank')} >
       <CardHeader>
         <CardDescription >
         <div className="transition-all duration-300 ease-in-out group-hover:scale-90">
