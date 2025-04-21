@@ -31,10 +31,10 @@ function App() {
     
         setCenter({ lat: latitude, lng: longitude });
         setBounds({
-          neLat: latitude + 0.01,
-          neLng: longitude +  0.01,
-          swLat: latitude -  0.01,
-          swLng: longitude -  0.01,
+          neLat: latitude + 0.05,
+          neLng: longitude +  0.05,
+          swLat: latitude -  0.05,
+          swLng: longitude -  0.05,
         }) 
       },
       (error) => {
@@ -59,7 +59,7 @@ function App() {
   //
     const { isLoaded, loadError } = useJsApiLoader({
       id: 'google-map-script',
-      googleMapsApiKey:  import.meta.env.VITE_API_GOOGLE_MAPS_KEY,
+      googleMapsApiKey: import.meta.env.VITE_API_GOOGLE_MAPS_KEY,
       libraries
     })
 
