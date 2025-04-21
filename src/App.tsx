@@ -30,6 +30,12 @@ function App() {
       ({ coords: { latitude, longitude } }) => {
     
         setCenter({ lat: latitude, lng: longitude });
+        setBounds({
+          neLat: latitude + 0.01,
+          neLng: longitude +  0.01,
+          swLat: latitude -  0.01,
+          swLng: longitude -  0.01,
+        }) 
       },
       (error) => {
         console.error(error);
