@@ -11,13 +11,16 @@ import { Input } from "@/Components/ui/input"
 
 const AutocompleteList = () => {
 
-    const { setBounds, setCenter }  = useTravelContext();
+    const { setBounds, setCenter, setSortVal }  = useTravelContext();
     const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
     const onLoad = (autocompleteInstance: google.maps.places.Autocomplete) => {
     setAutocomplete(autocompleteInstance);
   };
 
   const onPlaceChanged = () => {
+    
+    setSortVal("")
+
     if (autocomplete) {
       const place = autocomplete.getPlace();
       const location = place.geometry?.location;
@@ -32,10 +35,10 @@ const AutocompleteList = () => {
         const sw = viewport.getSouthWest();
   
         setBounds({
-          neLat: ne.lat() ,
-          neLng: ne.lng(),
-          swLat: sw.lat() ,
-          swLng: sw.lng()
+          neLat: ne.lat() + 0.05,
+          neLng: ne.lng() + 0.05,
+          swLat: sw.lat() - 0.05,
+          swLng: sw.lng() - 0.05
         });
       } else if (location) {
         const lat = location.lat();
@@ -43,10 +46,10 @@ const AutocompleteList = () => {
         setCenter({ lat, lng });
   
         setBounds({
-          neLat: lat + 0.01,
-          neLng: lng + 0.01,
-          swLat: lat - 0.01,
-          swLng: lng - 0.01,
+          neLat: lat + 0.05,
+          neLng: lng + 0.05,
+          swLat: lat - 0.05,
+          swLng: lng - 0.05,
         });
       } else {
         console.error("Location not available");
