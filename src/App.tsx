@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import {  useJsApiLoader } from '@react-google-maps/api'
-import PuffLoader from "react-spinners/PuffLoader"
+import MoonLoader from "react-spinners/MoonLoader"
 import "./index.css"
 import Map from "./Components/Map/Map"
 import List from "./Components/List/List"
@@ -98,7 +98,10 @@ function App() {
     </TravelContext.Provider>
   ) : (
     center && 
-    <PuffLoader loading={loading}  />
+    <div className='h-screen w-full flex items-center justify-center'>
+    <MoonLoader
+    loading={loading} size={50} color="#99a1af"  />
+    </div>
   )
 }
 
