@@ -19,7 +19,7 @@ const Map = () => {
   const { center,  bounds,  isLoaded,  mapLocations }   = useTravelContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
-
+  console.log("map", map)
 
 
   const onLoad = useCallback((mapInstance: google.maps.Map) => {
